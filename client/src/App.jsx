@@ -11,17 +11,19 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./common/pages/Firebase_config.jsx";
 import Loader from "./common/pages/Loader.jsx";
 import Homepage from "./common/components/Homepage.jsx";
+import Admin from "./Admin/Admin.jsx";
+import Create from "./Admin/AdminPages/Create.jsx";
+import Update from "./Admin/AdminPages/Update.jsx";
 
 const App = () => {
 
   useEffect(()=>{
     onAuthStateChanged(auth, async (user) => {
       if (user) {
-        console.table(user);
+
         // https://firebase.google.com/docs/reference/js/auth.user
         const uid = await user.getIdToken();
-        console.log(uid + "uid");
-        console.log(uid);
+
       } else {
         // User is signed out
         // ...
@@ -38,6 +40,12 @@ const App = () => {
           <Route path="register" element={<Register />} />
           <Route path="homepage" element={<Homepage />} />
         </Route>
+        {/* admin routes */}
+        <Route path="/admin" element={<Admin />}>
+          <Route path="create" element={<Create />} />
+          <Route path="update" element={<Update />} />
+        </Route>
+
         <Route path="*" element={<Found404 />} />
       </Routes>
     </>

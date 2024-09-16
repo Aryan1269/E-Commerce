@@ -15,7 +15,7 @@ export default function Home() {
           Home
         </NavLink>
         <NavLink
-          to="/dashboard"
+          to="/admin"
           className={({ isActive }) =>
             isActive ? "text-green-400 underline" : "text-black"
           }
