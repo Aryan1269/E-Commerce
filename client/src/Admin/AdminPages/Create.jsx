@@ -6,6 +6,9 @@ const Create = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const name = useRef("");
 
+  console.log(products);
+  
+
   async function handleSubmit(e) {
     e.preventDefault();
     try {
@@ -37,6 +40,10 @@ const Create = () => {
       }
     };
     fetchProducts();
+
+    return ()=>{
+    setProducts([]);
+    }
   }, [isSubmitted]);
 
   console.log(products);
