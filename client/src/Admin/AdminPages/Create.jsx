@@ -37,9 +37,6 @@ const Create = () => {
       }
     };
     fetchProducts();
-
-    
-
   }, [isSubmitted]);
 
   console.log(products);
@@ -70,8 +67,13 @@ const Create = () => {
             products.map((p) => (
               <div className="text-xl m-2 flex justify-start gap-4 bg-gray-200 p-4 ">
                 <h1>{p.name}</h1>
-                <Link className="ml-auto" to={`/admin/update?${p.name}`}><i className=" ri-pencil-fill"></i></Link>
-                <span onClick={()=>handleDelete(p.slug)}>
+                <Link
+                  className="ml-auto"
+                  to={`/admin/update/${p.name}`}
+                >
+                  <i className=" ri-pencil-fill"></i>
+                </Link>
+                <span onClick={() => handleDelete(p.slug)}>
                   <i class="ri-delete-bin-2-line"></i>
                 </span>
               </div>

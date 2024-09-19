@@ -43,7 +43,7 @@ const App = () => {
         {/* admin routes */}
         <Route path="/admin" element={<Admin />}>
           <Route path="create" element={<Create />} />
-          <Route path="update" element={<Update />} />
+          <Route path="update/:Cname" element={<Update />} />
         </Route>
 
         <Route path="*" element={<Found404 />} />
