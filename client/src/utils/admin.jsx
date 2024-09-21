@@ -6,8 +6,13 @@ export const createproduct = async (formData) =>
 export const readproduct = async () =>
   await axios.get(`http://localhost:8080/api/category`);
 
+export const getsubproduct = async (id) => {
+  console.log(`http://localhost:8080/api/category/sub/${id}`);
+
+  return await axios.get(`http://localhost:8080/api/category/sub/${id}`);
+};
+
 export const singleproduct = async (name) => {
-  console.log(name);
   return await axios.get(`http://localhost:8080/api/category/${name}`);
 };
 

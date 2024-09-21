@@ -3,11 +3,17 @@ import { createproduct, deleteproduct, readproduct } from "../../utils/admin";
 import { Link } from "react-router-dom";
 const Create = () => {
   const [products, setProducts] = useState([]);
+  const [query, setQuery] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const name = useRef("");
 
-  console.log(products);
-  
+  const serached = (query) => (c) =>
+    c.name.toLowerCase().includes(query.toLowerCase());
+
+  function handlequery(e){
+    e.preventDefault();
+    setQuery(e.target.value.toLowerCase());
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -41,9 +47,9 @@ const Create = () => {
     };
     fetchProducts();
 
-    return ()=>{
-    setProducts([]);
-    }
+    return () => {
+      setProducts([]);
+    };
   }, [isSubmitted]);
 
   console.log(products);
@@ -67,17 +73,15 @@ const Create = () => {
           />
         </form>
         <hr />
+        <input type="search" placeholder="filter" value={query}  onChange={handlequery}/>
         <br />
         <h1>Items</h1>
         <div className="m-2 p-2 overflow-auto h-[70%]">
           {products.length > 0 &&
-            products.map((p) => (
+            products.filter(serached(query)).map((p) => (
               <div className="text-xl m-2 flex justify-start gap-4 bg-gray-200 p-4 ">
                 <h1>{p.name}</h1>
-                <Link
-                  className="ml-auto"
-                  to={`/admin/update/${p.name}`}
-                >
+                <Link className="ml-auto" to={`/admin/update/${p.name}`}>
                   <i className=" ri-pencil-fill"></i>
                 </Link>
                 <span onClick={() => handleDelete(p.slug)}>

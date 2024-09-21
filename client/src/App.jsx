@@ -14,6 +14,9 @@ import Homepage from "./common/components/Homepage.jsx";
 import Admin from "./Admin/Admin.jsx";
 import Create from "./Admin/AdminPages/Create.jsx";
 import Update from "./Admin/AdminPages/Update.jsx";
+import Subcategory from "./Admin/AdminPages/Subcategory.jsx";
+import Createproducts from "./Admin/AdminPages/Createproducts.jsx";
+import Products from "./Admin/component/Products.jsx";
 
 const App = () => {
 
@@ -44,6 +47,9 @@ const App = () => {
         <Route path="/admin" element={<Admin />}>
           <Route path="create" element={<Create />} />
           <Route path="update/:Cname" element={<Update />} />
+          <Route path="subcategory" element={<Subcategory />} />
+          <Route path="product" element={<Createproducts />} />
+          <Route path="products" element={<Products />} />
         </Route>
 
         <Route path="*" element={<Found404 />} />
