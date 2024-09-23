@@ -1,12 +1,12 @@
 const express = require("express");
-const C = require("../controller/admin");
+const C = require("../controller/subCategory");
 
 const router = express.Router();
 
-router.route("/category").post(C.create).get(C.list);
+router.route("/Subcategory").post(C.create).get(C.list);
 
 router
-  .route("/category/:slug")
+  .route("/Subcategory/:slug")
   .get(C.singlecategory)
   .put(C.update)
   .delete(C.deletecategory);

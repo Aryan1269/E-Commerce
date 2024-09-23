@@ -1,12 +1,10 @@
+import axios from "axios";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 // @ts-ignore
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../common/pages/Firebase_config.jsx";
-export default function Register() {
 
-      
+export default function Register() {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -14,23 +12,20 @@ export default function Register() {
 
     const formData = new FormData(e.currentTarget);
     const userData = Object.fromEntries(formData);
-    const { email, first_name, last_name, password, password_confirmation } =
-      userData;
+    const { email, userName, password, password_confirmation } = userData;
 
     console.log(userData);
 
     try {
-      if(password==password_confirmation){
-      const result = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      toast.success("user created sucessfully")
-      navigate(`/login?email=${email}`)
-      }
-      else{
-        toast.error('password is not equal to confirm password')
+      if (password == password_confirmation) {
+        const register = await axios.post(
+          `${import.meta.env.VITE_API_URL}/register`,
+          userData
+        );
+        toast.success("user created sucessfully");
+        navigate(`/login?email=${email}`);
+      } else {
+        toast.error("password is not equal to confirm password");
       }
     } catch (error) {
       toast.error(error.message);
@@ -118,30 +113,13 @@ export default function Register() {
                     htmlFor="FirstName"
                     className="block text-sm font-medium text-gray-700 dark:text-gray-200"
                   >
-                    First Name
+                    User Name
                   </label>
 
                   <input
                     type="text"
                     id="FirstName"
-                    name="first_name"
-                    required
-                    className="mt-1 w-full p-2 rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
-                  />
-                </div>
-
-                <div className="col-span-6 sm:col-span-3">
-                  <label
-                    htmlFor="LastName"
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-200"
-                  >
-                    Last Name
-                  </label>
-
-                  <input
-                    type="text"
-                    id="LastName"
-                    name="last_name"
+                    name="userName"
                     required
                     className="mt-1 w-full p-2 rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
                   />

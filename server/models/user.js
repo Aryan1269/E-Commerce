@@ -3,7 +3,7 @@ const {ObjectId} = mongoose.Schema;
 
 const userModel = new mongoose.Schema(
   {
-    username: {
+    userName: {
       type: String,
       required: true,
     },
@@ -11,6 +11,9 @@ const userModel = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+    },
+    password : {
+      type : String,
     },
     role: {
       type: String,
@@ -30,3 +33,6 @@ const userModel = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+
+module.exports = mongoose.model('user',userModel);

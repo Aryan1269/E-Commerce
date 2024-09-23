@@ -1,55 +1,38 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import React, { useEffect } from "react";
+import React from "react";
 import { toast } from "react-toastify";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../common/pages/Firebase_config";
 import axios from "axios";
 
 export default function Login() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const createOrUpdate = async (accessToken) => {
-    // Function declaration
-    return await axios.post(
-      "http://localhost:8080/api/check_auth",
-      // API endpoint URL
-      {},
-      // Request body (empty object in this case)
-      {
-        headers: {
-          accessToken, // Request headers
-        },
-      }
-    );
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const { email, password, password_confirmation } =
-      Object.fromEntries(formData);
+    const userData = Object.fromEntries(formData);
+    const { password, password_confirmation } = userData;
 
     try {
       if (password === password_confirmation) {
-        signInWithEmailAndPassword(auth, email, password).then(
-          async (userCredential) => {
-            const user = userCredential.user;
-
-            const idTokenResult = await user.getIdTokenResult();
-            const accessToken = idTokenResult.token;
-            console.log(accessToken);
-            createOrUpdate(accessToken);
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/test`,
+          userData,
+          {
+            withCredentials: true,
           }
         );
-        toast.success("logged In success");
 
-        navigate("/homepage");
+        if (response.data.success) {
+          toast.success("logged In success");
+          window.location.reload();
+        } else navigate("/login");
       }
     } catch (error) {
       toast.error(error.message || error);
     }
   };
+
   const queryParams = new URLSearchParams(location.search);
   const getEmail = queryParams.get("email") || null;
   return (

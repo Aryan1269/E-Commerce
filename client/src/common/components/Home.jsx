@@ -1,6 +1,7 @@
 import React from "react";
 import { Outlet, NavLink } from "react-router-dom";
 import Homepage from "./Homepage";
+import axios from "axios";
 
 export default function Home() {
   return (
@@ -23,6 +24,14 @@ export default function Home() {
           Dashboard
         </NavLink>
         <NavLink
+          to="/cart"
+          className={({ isActive }) =>
+            isActive ? "text-green-400 underline" : "text-black"
+          }
+        >
+          Cart
+        </NavLink>
+        <NavLink
           to="/login"
           className={({ isActive }) =>
             isActive ? "text-green-400 underline ml-auto" : "text-black ml-auto"
@@ -39,6 +48,7 @@ export default function Home() {
           Register
         </NavLink>
       </nav>
+
       <Outlet />
     </>
   );

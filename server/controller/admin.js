@@ -1,5 +1,6 @@
 const Category = require("../models/category");
 const slugify = require("slugify");
+const subCategory = require("../models/subCategory");
 
 exports.create = async (req, res) => {
   const { name } = req.body;
@@ -37,7 +38,7 @@ exports.singlecategory = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     const { name } = req.body;
-    console.log(req.params.slug)
+    console.log(req.params.slug);
     const category = await Category.findOneAndUpdate(
       { slug: req.params.slug },
       { name, slug: slugify(name) },
@@ -55,5 +56,16 @@ exports.deletecategory = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(403).send(`error Delete : ${error}`);
+  }
+};
+
+exports.subs = async (req, res) => {
+  try {
+    const sub = await subCategory.find({ parent: req.params.id });
+    res.json(sub);
+  } catch (error) {
+    res.json({
+      error : error,
+    })
   }
 };

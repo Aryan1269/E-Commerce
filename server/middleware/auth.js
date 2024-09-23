@@ -1,26 +1,26 @@
-// authMiddleware.js
-// const admin = require('../config/firebaseAdmin_config');
+const jwt = require("jsonwebtoken");
 
-exports.checkAuth = async (req, res, next) => {
-  console.log(req.headers.accessToken);
-  next();
+//auth middleware
+exports.authMiddleware = async (req, res, next) => {
+  const token = req.cookies.test; // Use req.cookies instead of req.cookie
+  console.log(token);
+
+  if (!token)
+    return res.status(401).json({
+      success: false,
+      message: "Unauthorised user!",
+    });
+
   try {
-    // Ensure the access token is provided in the headers
-    const accessToken = req.headers.accessToken;
-
-    if (!accessToken) {
-      return res.status(401).json({ message: 'No access token provided' });
-    }
-
-    const firebaseUser = await admin.auth().verifyIdToken(accessToken);
-    console.log("Firebase User:", firebaseUser);
-    
-    // Optionally, you can attach the user info to the request object
-    req.user = firebaseUser;
-
+    const decoded = jwt.verify(token, "CLIENT_SECRET_KEY");
+    req.user = decoded;
     next();
   } catch (error) {
-    console.error('Error verifying token:', error);
-    return res.status(401).json({ message: 'Unauthorized' });
+    console.log(error);
+
+    res.status(401).json({
+      success: false,
+      message: "Unauthorised user!",
+    });
   }
 };

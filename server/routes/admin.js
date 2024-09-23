@@ -11,4 +11,7 @@ router
   .put(C.update)
   .delete(C.deletecategory);
 
+
+router.get('/category/sub/:id',C.subs);
+
 module.exports = router;

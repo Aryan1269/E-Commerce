@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { readitems, removeitem } from "../../utils/product";
+import { Link } from "react-router-dom";
 
 const Products = () => {
   const [product, setProducts] = useState([]);
-  const [loading,setloading] = useState(false);
+  const [loading, setloading] = useState(false);
 
   async function getproducts() {
     const rs = await readitems();
@@ -16,14 +17,12 @@ const Products = () => {
 
   async function handleDelete(id) {
     try {
-        await removeitem(id);
-        setloading(!loading);
-        console.log("succesfful detele");
-        
+      await removeitem(id);
+      setloading(!loading);
+      console.log("succesfful detele");
     } catch (error) {
-        console.log(error);
-        
-    }    
+      console.log(error);
+    }
   }
 
   console.log(product);
@@ -51,12 +50,18 @@ const Products = () => {
                 <small>{p.description}</small>
               </div>
               <div className="flex justify-between items-center">
-                <button class="flex items-center justify-center text-center bg-gray-900 px-4 py-2 gap-2 text-sm text-white transition hover:bg-gray-700">
+                <Link
+                  to={`/admin/product/${p._id}`}
+                  class="flex items-center justify-center text-center bg-gray-900 px-4 py-2 gap-2 text-sm text-white transition hover:bg-gray-700"
+                >
                   <i class="ri-edit-box-fill text-center text-md"></i> update
-                </button>
-                <button onClick={()=>handleDelete(p._id)}
-                 class="flex items-center justify-center text-center bg-gray-900 px-4 py-2 gap-2 text-sm text-white transition hover:bg-gray-700">
-                  Delete <i class="ri-close-circle-fill text-center text-md mt-1"></i>
+                </Link>
+                <button
+                  onClick={() => handleDelete(p._id)}
+                  class="flex items-center justify-center text-center bg-gray-900 px-4 py-2 gap-2 text-sm text-white transition hover:bg-gray-700"
+                >
+                  Delete{" "}
+                  <i class="ri-close-circle-fill text-center text-md mt-1"></i>
                 </button>
               </div>
             </div>
